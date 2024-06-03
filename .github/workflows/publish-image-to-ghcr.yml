@@ -32,6 +32,7 @@ jobs:
       run: make test
 
   build:
+    needs: lint-and-test
     runs-on: ubuntu-latest
 
     permissions:
