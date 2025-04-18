@@ -4,10 +4,14 @@ ENV PROJECT_HOME=/data
 RUN mkdir /data
 
 # Set the working directory in the container
-WORKDIR /usr/local/bin
+WORKDIR ${PROJECT_HOME}
 
-# Copy the script into the container at /usr/src/app
-COPY ./script.py /usr/local/bin/
+# Install runtime dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy necessary files
+COPY main.py /usr/local/bin
 
 # Run the script when the container launches
-ENTRYPOINT ["python", "/usr/local/bin/script.py"]
+ENTRYPOINT ["python", "/usr/local/bin/main.py"]
