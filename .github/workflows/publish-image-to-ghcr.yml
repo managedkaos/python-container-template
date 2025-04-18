@@ -2,11 +2,7 @@ name: Build and Push Image
 
 on:
   push:
-    branches: [ main ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
   pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 env:
