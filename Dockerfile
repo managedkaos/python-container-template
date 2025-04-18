@@ -1,7 +1,7 @@
 # Use an official Python runtime as a parent image
 FROM python:3.12-slim
-ENV PROJECT_HOME=/data
-RUN mkdir /data
+ENV PROJECT_HOME=/work
+RUN mkdir /work
 
 # Set the working directory in the container
 WORKDIR ${PROJECT_HOME}
