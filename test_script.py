@@ -3,6 +3,7 @@ Unit tests
 """
 
 import unittest
+
 from script import custom_function
 
 
