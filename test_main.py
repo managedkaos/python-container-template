@@ -4,7 +4,7 @@ Unit tests
 
 import unittest
 
-from script import custom_function
+from main import custom_function
 
 
 class TestCustomFunction(unittest.TestCase):
