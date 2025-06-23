@@ -35,7 +35,7 @@ pre-commit-update: development-requirements
 pre-commit-run: development-requirements
 	pre-commit run --all-files
 
-pre-commit-clean:
+x_pre-commit-clean:
 	pre-commit uninstall
 
 lint:
