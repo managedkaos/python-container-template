@@ -10,6 +10,7 @@ help:
 	@echo "  requirements             - install runtime dependencies"
 	@echo "  development-requirements - install development dependencies"
 	@echo "  pre-commit-install       - install pre-commit hooks"
+	@echo "  pre-commit-update        - update pre-commit hooks"
 	@echo "  pre-commit-run           - run pre-commit on all files"
 	@echo "  pre-commit-clean         - remove pre-commit hooks"
 	@echo "  lint                     - run flake8, pylint, black, and isort checks"
@@ -24,12 +25,12 @@ all: requirements lint test build
 development-requirements: requirements
 	pip install --quiet --upgrade --requirement development-requirements.txt
 
-requirements:
-	pip install --upgrade pip
-	pip install --quiet --upgrade --requirement requirements.txt
-
 pre-commit-install: development-requirements
 	pre-commit install
+
+pre-commit-update: development-requirements
+	pre-commit autoupdate
+	$(MAKE) pre-commit-run
 
 pre-commit-run: development-requirements
 	pre-commit run --all-files
