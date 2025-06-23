@@ -9,6 +9,10 @@ help:
 	@echo "  all                      - run requirements, lint, test, and build"
 	@echo "  requirements             - install runtime dependencies"
 	@echo "  development-requirements - install development dependencies"
+	@echo "  pre-commit-install       - install pre-commit hooks"
+	@echo "  pre-commit-update        - update pre-commit hooks"
+	@echo "  pre-commit-run           - run pre-commit on all files"
+	@echo "  pre-commit-clean         - remove pre-commit hooks"
 	@echo "  lint                     - run flake8, pylint, black, and isort checks"
 	@echo "  black                    - format code with black"
 	@echo "  isort                    - sort imports with isort"
@@ -21,9 +25,18 @@ all: requirements lint test build
 development-requirements: requirements
 	pip install --quiet --upgrade --requirement development-requirements.txt
 
-requirements:
-	pip install --upgrade pip
-	pip install --quiet --upgrade --requirement requirements.txt
+pre-commit-install: development-requirements
+	pre-commit install
+
+pre-commit-update: development-requirements
+	pre-commit autoupdate
+	$(MAKE) pre-commit-run
+
+pre-commit-run: development-requirements
+	pre-commit run --all-files
+
+x_pre-commit-clean:
+	pre-commit uninstall
 
 lint:
 	flake8 --ignore=E501,E231 *.py
@@ -51,4 +64,4 @@ clean:
 	@rm -rf ./__pycache__ ./tests/__pycache__
 	@rm -f .*~ *.pyc
 
-.PHONY: help requirements lint black isort test build clean development-requirements
+.PHONY: help requirements lint black isort test build clean development-requirements pre-commit-install pre-commit-run pre-commit-clean
