@@ -61,7 +61,7 @@ build: lint test
 clean:
 	docker container stop $(APP) || true
 	docker container rm $(APP) || true
-	@rm -rf ./__pycache__ ./tests/__pycache__
+	@rm -rf ./__pycache__ ./tests/__pycache__ .ruff_cache
 	@rm -f .*~ *.pyc
 
 .PHONY: help requirements lint black isort test build clean development-requirements pre-commit-install pre-commit-run pre-commit-clean
