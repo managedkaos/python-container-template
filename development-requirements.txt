@@ -1,7 +1,8 @@
 # Development dependencies
-flake8
-pylint
+bandit
 black
+detect-secrets
+flake8
 isort
 pre-commit
-bandit
+pylint
