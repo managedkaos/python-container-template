@@ -29,6 +29,9 @@ jobs:
       - name: Lint with flake8, pylint, black, and isort
         run: make lint
 
+      - name: Run pre-commit workflow
+        run: make pre-commit-install pre-commit-run
+
   test:
     needs: lint
     runs-on: ubuntu-latest
