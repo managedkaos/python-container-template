@@ -33,7 +33,7 @@ The following hooks are configured to run automatically on commit:
 - **flake8**: Linting for code quality
 - **bandit**: Security vulnerability scanning
 - **detect-secrets**: Secret detection in code
-- **pre-commit-hooks**: Various checks including:
+- **Various checks includings**:
   - Merge conflict detection
   - YAML/JSON validation
   - Large file detection
