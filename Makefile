@@ -1,7 +1,5 @@
 APP = $(notdir $(CURDIR))
 TAG = $(shell echo "$$(date +%F)-$$(git rev-parse --short HEAD)")
-DOCKER_REPO = ghcr.io/managedkaos
-
 
 help:
 	@echo "Run make <target> where target is one of the following..."
@@ -21,6 +19,9 @@ help:
 	@echo "  clean                    - clean up workspace and containers"
 
 all: requirements lint test build
+
+requirements:
+	pip install --quiet --upgrade --requirement requirements.txt
 
 development-requirements: requirements
 	pip install --quiet --upgrade --requirement development-requirements.txt
