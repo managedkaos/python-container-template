@@ -164,3 +164,5 @@ cython_debug/
 # Pre-commit and security tools
 bandit-report.json
 .secrets.baseline
+
+.kiro

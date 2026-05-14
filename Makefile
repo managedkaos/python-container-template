@@ -11,9 +11,8 @@ help:
 	@echo "  pre-commit-update        - update pre-commit hooks"
 	@echo "  pre-commit-run           - run pre-commit on all files"
 	@echo "  pre-commit-clean         - remove pre-commit hooks"
-	@echo "  lint                     - run flake8, pylint, black, and isort checks"
-	@echo "  black                    - format code with black"
-	@echo "  isort                    - sort imports with isort"
+	@echo "  lint                     - run ruff checks"
+	@echo "  fmt                      - format code with ruff"
 	@echo "  test                     - run unit tests"
 	@echo "  build                    - build docker container"
 	@echo "  clean                    - clean up workspace and containers"
@@ -41,18 +40,11 @@ x_pre-commit-clean:
 	pre-commit uninstall
 
 lint:
-	flake8 --ignore=E501,E231 *.py
-	pylint --errors-only --disable=C0301 *.py
-	black --diff *.py
-	isort --check-only --diff *.py
+	ruff check *.py
 
-fmt: black isort
-
-black:
-	black *.py
-
-isort:
-	isort *.py
+fmt:
+	ruff format *.py
+	ruff check --fix *.py
 
 test:
 	python -m unittest --verbose --failfast
@@ -66,4 +58,4 @@ clean:
 	@rm -rf ./__pycache__ ./tests/__pycache__ .ruff_cache
 	@rm -f .*~ *.pyc
 
-.PHONY: help requirements lint black isort test build clean development-requirements pre-commit-install pre-commit-run pre-commit-clean
+.PHONY: help requirements lint fmt test build clean development-requirements pre-commit-install pre-commit-run pre-commit-clean

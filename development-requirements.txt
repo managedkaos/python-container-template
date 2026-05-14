@@ -1,8 +1,5 @@
 # Development dependencies
 bandit
-black
 detect-secrets
-flake8
-isort
 pre-commit
-pylint
+ruff
