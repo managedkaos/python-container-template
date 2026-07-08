@@ -1,58 +1,50 @@
 APP = $(notdir $(CURDIR))
 TAG = $(shell echo "$$(date +%F)-$$(git rev-parse --short HEAD)")
+GREEN := \033[0;32m
+NC := \033[0m
 
-help:
-	@echo "Run make <target> where target is one of the following..."
-	@echo
-	@echo "  all                      - run requirements, lint, test, and build"
-	@echo "  requirements             - install runtime dependencies"
-	@echo "  development-requirements - install development dependencies"
-	@echo "  pre-commit-install       - install pre-commit hooks"
-	@echo "  pre-commit-update        - update pre-commit hooks"
-	@echo "  pre-commit-run           - run pre-commit on all files"
-	@echo "  pre-commit-clean         - remove pre-commit hooks"
-	@echo "  lint                     - run ruff checks"
-	@echo "  fmt                      - format code with ruff"
-	@echo "  test                     - run unit tests"
-	@echo "  build                    - build docker container"
-	@echo "  clean                    - clean up workspace and containers"
+help: ## Show this help message
+	@echo "$(GREEN)Usage: make [target]$(NC)"
+	@echo ''
+	@echo "$(GREEN)Available targets:$(NC)"
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-25s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-all: requirements lint test build
+all: requirements lint test build ## Run requirements, lint, test, and build
 
-requirements:
+requirements: ## Install runtime dependencies
 	pip install --quiet --upgrade --requirement requirements.txt
 
-development-requirements: requirements
+development-requirements: requirements ## Install development dependencies
 	pip install --quiet --upgrade --requirement development-requirements.txt
 
-pre-commit-install: development-requirements
+pre-commit-install: development-requirements ## Install pre-commit hooks
 	pre-commit install
 	detect-secrets scan > .secrets.baseline
 
-pre-commit-update: development-requirements
+pre-commit-update: development-requirements ## Update pre-commit hooks
 	pre-commit autoupdate
 	$(MAKE) pre-commit-run
 
-pre-commit-run: development-requirements
+pre-commit-run: development-requirements ## Run pre-commit on all files
 	pre-commit run --all-files
 
 x_pre-commit-clean:
 	pre-commit uninstall
 
-lint:
+lint: ## Run ruff checks
 	ruff check *.py
 
-fmt:
+fmt: ## Format code with ruff
 	ruff format *.py
 	ruff check --fix *.py
 
-test:
+test: ## Run unit tests
 	python -m unittest --verbose --failfast
 
-build: lint test
+build: lint test ## Build docker container
 	docker build --tag $(APP):$(TAG) .
 
-clean:
+clean: ## Clean up workspace and containers
 	docker container stop $(APP) || true
 	docker container rm $(APP) || true
 	@rm -rf ./__pycache__ ./tests/__pycache__ .ruff_cache
